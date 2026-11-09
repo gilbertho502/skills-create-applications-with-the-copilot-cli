@@ -1,6 +1,6 @@
 const assert = require("node:assert/strict");
 const { describe, it } = require("node:test");
-const { calculate } = require("../calculator");
+const { calculate, modulo, power, squareRoot } = require("../calculator");
 
 describe("calculate", () => {
   describe("addition", () => {
@@ -49,9 +49,42 @@ describe("calculate", () => {
     });
   });
 
+  describe("modulo", () => {
+    it("returns the remainder for the example values", () => {
+      assert.equal(modulo(5, 2), 1);
+      assert.equal(calculate("%", 5, 2), 1);
+    });
+
+    it("throws when taking modulo by zero", () => {
+      assert.throws(() => modulo(10, 0), {
+        message: "Cannot take modulo by zero.",
+      });
+    });
+  });
+
+  describe("power", () => {
+    it("raises the base to the exponent", () => {
+      assert.equal(power(2, 3), 8);
+      assert.equal(calculate("^", 2, 3), 8);
+    });
+  });
+
+  describe("square root", () => {
+    it("returns the square root for the example value", () => {
+      assert.equal(squareRoot(16), 4);
+      assert.equal(calculate("sqrt", 16), 4);
+    });
+
+    it("throws for negative numbers", () => {
+      assert.throws(() => squareRoot(-1), {
+        message: "Cannot calculate the square root of a negative number.",
+      });
+    });
+  });
+
   it("rejects unsupported operations", () => {
-    assert.throws(() => calculate("power", 2, 3), {
-      message: "Unsupported operation: power",
+    assert.throws(() => calculate("unknown", 2, 3), {
+      message: "Unsupported operation: unknown",
     });
   });
 
